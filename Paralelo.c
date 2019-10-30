@@ -66,3 +66,22 @@ int main()
 
     return 0;
 }
+*/
+
+#include <stdio.h>
+int main(){
+
+int espalindromo(char * cadena, int indiceInicio, int indiceFin) {
+
+    if (indiceInicio >= indiceFin) return 1;
+
+    printf("Comparando %c con %c\n", cadena[indiceInicio], cadena[indiceFin]);
+
+    if (cadena[indiceInicio] == cadena[indiceFin]) {
+        return espalindromo(cadena, indiceInicio + 1, indiceFin - 1);
+    } else {
+
+        return 0;
+    }
+}
+}
