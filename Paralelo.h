@@ -1,29 +1,36 @@
 #define HEADER_FILE
 #include <stdio.h>
 #include "Matroide.h"
-
-void esPar(struct Matroid* nueva,int TAMANIO){
-    #pragma omp parallel
-    {
-    int conteo=0;
-    for(int i=0;i<TAMANIO;i++){
-        if(*(int *)nueva->M[i]%2==0){
-            printf("Value of i = %d\n", *(int *)nueva->M[i]);
-            conteo++;
-        }
-    }
-    }
-
-    system("Pause");
-}
-
+//-----------------STRUCT DE LA LISTA ENLAZADA----------------------------//
+typedef struct Lista{
+int IdLista;
+Matroid *Elemento;
+struct Lista *siguente;
+struct Lista *anterior;
+}Lista;
+//-----------------PUNTEROS Y VARIABLES GLOBALES----------------------------//
+Cant=0;//cantidad de matroids
+Lista *primero;
+Lista *ultimo;
+Matroid *nueva;
+//-----------------METODOS----------------------------//
 void iniciar(){
+    Lista *temporal;
+    temporal=primero;
+    #pragma omp parallel for
+    for(int i=0;i<Cant;i++){
+        for(int j=0;j<TAMANIO;j++){
+            char res=temporal->Elemento->W(temporal->Elemento->M[j]);
+            printf("El valor booleano es de = %c\n",res);
+        }
+        if(temporal->siguente!=NULL){
+            temporal=temporal->siguente;
+        }else{
+            //printf("Fin de ejecucion\n");
+        }
 
-/*for(int i=0;i<4;i++){
-      printf("%d\n",2);
-}*/
-
-
+    }
+    system("Pause");
 
 }
 

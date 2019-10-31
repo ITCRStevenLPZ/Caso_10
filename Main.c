@@ -1,43 +1,58 @@
 #include <stdio.h>
 #include "Paralelo.h"
 
-#define TAMANIO 10
-//-----------------STRUCT DE LA LISTA MATROID----------------------------//
 
-//-----------------STRUCT DE LA LISTA ENLAZADA----------------------------//
-typedef struct Lista{
-int IdLista;
-struct Matroid *Elemento;
-struct Lista *siguente;
-struct Lista *anterior;
-}Lista;
-//-----------------PUNTEROS Y VARIABLES GLOBALES----------------------------//
-Lista *primero;
-Lista *ultimo;
-
-
-void crearLista(){
-    int list[]={1,2,3,4,5,6,7,8,9,10};
-    struct Matroid *nueva;
-    nueva = malloc(sizeof(struct Matroid));
+int arreglo[15]={1,56,4,7,10,5,76,85,98,65,55,43,69,12,47};
+void PruebaPar(){
+    nueva = malloc(sizeof(Matroid));
     AsignarVoids(nueva);
     for(int i=0;i<TAMANIO;i++){
-        nueva->M[i]=&list[i];
+        nueva->M[i]=&arreglo[rand()%15];
     }
-    esPar(nueva,TAMANIO);
-
+    nueva->W=&esPar;
+    anadir(nueva);
 }
-void AsignarVoids(struct Matroid *nueva){
+void PruebaMultiplo(){
+    nueva = malloc(sizeof(Matroid));
+    AsignarVoids(nueva);
     for(int i=0;i<TAMANIO;i++){
-        nueva->I[i]=malloc(sizeof(void));
+        nueva->M[i]=&arreglo[rand()%15];
+    }
+    nueva->W=&esMultiplo10;
+    anadir(nueva);
+}
+
+void anadir(Matroid *nueva){
+    Lista *nuevo;
+    nuevo=malloc(sizeof(Lista));
+    nuevo->Elemento=nueva;
+    if(primero==NULL){
+        nuevo->anterior=NULL;
+        nuevo->siguente=NULL;
+        primero=nuevo;
+        ultimo=nuevo;
+        Cant++;
+    }else{
+        nuevo->siguente=NULL;
+        nuevo->anterior=ultimo;
+        ultimo->siguente=nuevo;
+        ultimo=nuevo;
+        Cant++;
+    }
+}
+
+void AsignarVoids(Matroid *nueva){
+    for(int i=0;i<TAMANIO;i++){
+        nueva->I=malloc(sizeof(LisVoid));
         nueva->M[i]=malloc(sizeof(void));
     }
 }
 int main(){
-crearLista();
-//ejemplo2();
+PruebaPar();
+PruebaMultiplo();
+iniciar();
 
-    return 0;
+    return 666;
 
 }
 
