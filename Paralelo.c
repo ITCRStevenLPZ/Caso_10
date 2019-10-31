@@ -1,87 +1,62 @@
-/*#include <stdio.h>
-#include <Matroid.h>
-int prueba[]={1,2,3,4};
-int main(){
-    //int indice=0;
-    /*for(int i = 0; i < 4 ;i++){
+#include<stdio.h>
+#include<stdlib.h>
+#include <string.h>
+#include<omp.h>
+#include "lib.h"
+#include "struct.h"
 
-    }
-#pragma omp parallel for
-for(int i=0;i<4;i++){
-      printf("%d\n",prueba[i]);
-}
-system("Pause");
-return 0;
-*/
 
-#include "omp.h"
-
+void sumar (int a);
+int esPalindromo(char *cadena);
+int esPar(int x);
 
 int main()
 {
 
 
-    int tamano = 600;
-    int A [tamano][tamano], B [tamano][tamano], C [tamano][tamano], C2[tamano][tamano];
+   matroid_t *test;
+   test = (matroid_t*)malloc(sizeof(matroid_t*));
 
-    for(int i=0; i < tamano; ++i)
-        for(int j=0; j < tamano; ++j){
-            A[i][j] = 0;
-            B[i][j] = 0;
-            C[i][j] = 0;
+   test->j=200;
 
-        }
+   test->func = sumar;
 
-    for(int i=0; i < tamano; ++i)
-        for(int j=0; j < tamano; ++j){
-            A[i][j] = j;
-            B[i][j] = j;
-            C[i][j] = 0;
-        }
+   matroide(test);
 
-   struct timeval t0, t1;
-   gettimeofday(&t0, 0);
-   for(int i=0; i < tamano; i++)
-        for(int j=0; j < tamano;j++)
-            for(int z=0; z < tamano; z++){
-
-                C[i][j] += A[i][z] * B[z][j];
-
-            }
-    gettimeofday(&t1, 0);
-	double elapsed2 = (t1.tv_sec-t0.tv_sec) * 1.0f + (t1.tv_usec - t0.tv_usec) / 1000000.0f;
-    printf("tiempo secuencial: ")<< elapsed2;
-
-   struct timeval t2, t3;
-   gettimeofday(&t2, 0);
-   #pragma omp parallel for
-   for(int i=0; i< tamano; i++)
-        for(int j=0; j< tamano;j++)
-            for(int z=0; z< tamano; z++){
-
-                C[i][j] += A[i][z] * B[z][j];
-
-            }
+   return 0;
 
 
-    return 0;
 }
-*/
 
-#include <stdio.h>
-int main(){
 
-int espalindromo(char * cadena, int indiceInicio, int indiceFin) {
+void sumar (int a){
+    a+=5;
+    printf("%i\n",a);
+}
 
-    if (indiceInicio >= indiceFin) return 1;
+int esPar(int x){
+   if(x%2==0){
+      return 1;
+   }else{
+      return 0;
+   }
+}
 
-    printf("Comparando %c con %c\n", cadena[indiceInicio], cadena[indiceFin]);
-
-    if (cadena[indiceInicio] == cadena[indiceFin]) {
-        return espalindromo(cadena, indiceInicio + 1, indiceFin - 1);
-    } else {
-
-        return 0;
+int esPalindromo(char *cadena) {
+    int longitud = strlen(cadena);
+    if (longitud <= 1){
+     printf("PALINDROMO");
+         return 1;
     }
-}
+    int inicio = 0, fin = longitud - 1;
+    while (cadena[inicio] == cadena[fin]){
+        if (inicio >= fin){
+            printf("PALINDROMO");
+            return 1;
+        }
+        inicio++;
+        fin--;
+    }
+    printf("no PALINDROMO");
+    return 0;
 }
